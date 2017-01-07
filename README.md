@@ -9,7 +9,7 @@ It will create all the necessary files and directories, download lume.lua and lu
 It includes Lurker, a small module which automatically hotswaps changed Lua files in a running LÖVE project.
 
 # Install
-Well, maybe you should not use it yet but as it's messy and and suits my own needs but, here's how you can test it.
+Well, maybe you should not use it yet but as it's messy and suits only my own needs but here's how you can try it.
 ```bash
 git clone https://github.com/felipebueno/clovis.git
 cd clovis
