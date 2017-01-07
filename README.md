@@ -21,5 +21,3 @@ clovis new mygame
 
 # About
 For now clovis is just a shell script with a bunch of commands that create the files and folders that I use with my little experiments. My goal is to make it a kind of package manager for LÖVE (something like [Leiningen](http://leiningen.org/) for Clojure), handling different LÖVE versions and libraries, automating builds and packaging, etc.
-
-If it proves useful maybe I could make it a lua package and distribute it with LuaRocks.
