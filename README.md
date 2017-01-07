@@ -1,5 +1,7 @@
 # clovis
 
+![clovis](https://i.imgur.com/A8aWlGI.gif)
+
 clovis is a command line tool to get your [LÖVE](https://love2d.org/) prototype up and running in a matter of seconds
 
 It will create all the necessary files and directories, download lume.lua and lurker.lua from their original sources, init a git repository and fire up your default text editor so you can start prototyping right away.
