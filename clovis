@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+function help_text()
+{
+    echo \
+"Usage: clovis [OPTION]... DIRECTORY...
+Create a new LÖVE project with Lurker.
+Available OPTIONs:
+  help              show this text
+  new               create a new project in the current directory
+Examples:
+  clovis new whales. It will create all the necessary files and
+  directories, download lume.lua and lurker.lua from their original sources,
+  init a git repository and fire up your default text editor so you can start
+  prototyping in a matter of seconds."
+}
+
+while [ "$1" != "" ]; do
+    PARAM=`echo $1 | awk -F= '{print $1}'`
+    case $PARAM in
+        help)
+            help_text
+            exit
+            ;;
+        new)
+        	echo "Creating new project"
+        	mkdir $2 || exit -1;
+        	cd $2 || exit -1;
+        	touch main.lua \
+        		  conf.lua \
+        		  README.md || exit -1;
+        	mkdir -p lib assets/img assets/audio || exit -1;
+        	echo "$2 - a new awesome game that does things" >> README.md || exit -1;
+        	echo -e "time = 0\n\nfunction love.load()\n    whale = love.graphics.newImage(\"assets/img/whale.png\")\n    sound = love.audio.newSource(\"assets/audio/sound.ogg\")\n    love.audio.play(sound)\nend\n\nfunction love.update(dt)\n    require(\"lib/lurker\").update()\n    time = time + dt\nend\n\nfunction love.draw()\n    love.graphics.setBackgroundColor(255, 255, 255)\n    love.graphics.setColor(255, 255, 255)\n    love.graphics.draw(whale, 200, 100)\n    love.graphics.setColor(0, 0, 0)\n    love.graphics.print(time)\nend\n\nfunction love.keypressed(key)\n    if key == \"escape\" then\n      love.event.quit()\n    end\nend" >> main.lua || exit -1;
+        	echo -e "function love.conf(t)\n	t.window.title = \"$2\"\n	t.window.width = 640\n	t.window.height = 480\nend" >> conf.lua || exit -1;
+        	echo "Downloading assets"
+        	curl -# "https://love2d.org/style/logo.png" -o assets/img/whale.png || exit -1;
+        	curl -# "https://upload.wikimedia.org/wikipedia/commons/3/3d/KDE-Sys-Log-In.ogg" -o assets/audio/sound.ogg || exit -1;
+        	echo "Downloading Lume"
+        	curl -# "https://raw.githubusercontent.com/rxi/lume/master/lume.lua" -o lib/lume.lua || exit -1;
+        	echo "Downloading Lurker"
+        	curl -# "https://raw.githubusercontent.com/rxi/lurker/master/lurker.lua" -o lib/lurker.lua || exit -1;
+        	echo "Successful. Running your game in 3, 2, 1..."
+        	subl .
+        	love .
+        	exit
+        	;;
+        *)
+            help_text
+            exit 1
+            ;;
+    esac
+    shift
+done
