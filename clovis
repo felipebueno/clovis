@@ -40,9 +40,12 @@ while [ "$1" != "" ]; do
         	curl -# "https://raw.githubusercontent.com/rxi/lume/master/lume.lua" -o lib/lume.lua || exit -1;
         	echo "Downloading Lurker"
         	curl -# "https://raw.githubusercontent.com/rxi/lurker/master/lurker.lua" -o lib/lurker.lua || exit -1;
-        	echo "Successful. Running your game in 3, 2, 1..."
-        	subl .
-        	love .
+
+		echo "Project $2 created and ready for launch in 3, 2, 1..."
+		love . &
+
+		if [ -z ${EDITOR-} ]; then echo "No default text editor found. You can set it on your shell profile like 'export EDITOR=vim'"; else $EDITOR .; fi
+
         	exit
         	;;
         *)
