@@ -31,7 +31,7 @@ while [ "$1" != "" ]; do
         		  README.md || exit -1;
         	mkdir -p lib assets/img assets/audio || exit -1;
         	echo "$2 - a new awesome game that does things" >> README.md || exit -1;
-        	echo -e "time = 0\n\nfunction love.load()\n    whale = love.graphics.newImage(\"assets/img/whale.png\")\n    sound = love.audio.newSource(\"assets/audio/sound.ogg\")\n    love.audio.play(sound)\nend\n\nfunction love.update(dt)\n    require(\"lib/lurker\").update()\n    time = time + dt\nend\n\nfunction love.draw()\n    love.graphics.setBackgroundColor(255, 255, 255)\n    love.graphics.setColor(255, 255, 255)\n    love.graphics.draw(whale, 200, 100)\n    love.graphics.setColor(0, 0, 0)\n    love.graphics.print(time)\nend\n\nfunction love.keypressed(key)\n    if key == \"escape\" then\n      love.event.quit()\n    end\nend" >> main.lua || exit -1;
+        	echo -e "TIME = 0\n\nfunction love.load()\n    WHALE = love.graphics.newImage(\"assets/img/whale.png\")\n    SOUND = love.audio.newSource(\"assets/audio/sound.ogg\", \"stream\")\n    love.audio.play(SOUND)\nend\n\nfunction love.update(dt)\n    require(\"lib/lurker\").update()\n    TIME = TIME + dt\nend\n\nfunction love.draw()\n    love.graphics.setBackgroundColor(255, 255, 255)\n    love.graphics.setColor(255, 255, 255)\n    love.graphics.draw(WHALE, 200, 100)\n    love.graphics.setColor(0, 0, 0)\n    love.graphics.print(tostring(TIME))\nend\n\nfunction love.keypressed(key)\n    if key == \"escape\" then\n      love.event.quit()\n    end\nend" >> main.lua || exit -1;
         	echo -e "function love.conf(t)\n	t.window.title = \"$2\"\n	t.window.width = 640\n	t.window.height = 480\nend" >> conf.lua || exit -1;
         	echo "Downloading assets"
         	curl -# "https://love2d.org/style/logo.png" -o assets/img/whale.png || exit -1;
@@ -41,7 +41,10 @@ while [ "$1" != "" ]; do
         	echo "Downloading Lurker"
         	curl -# "https://raw.githubusercontent.com/rxi/lurker/master/lurker.lua" -o lib/lurker.lua || exit -1;
 
-		echo "Project $2 created and ready for launch in 3, 2, 1..."
+		echo "Starting git repository"
+		git init
+
+		echo "Project $2 created and ready to launch in 3, 2, 1..."
 		love . &
 
 		if [ -z ${EDITOR-} ]; then echo "No default text editor found. You can set it on your shell profile like 'export EDITOR=vim'"; else $EDITOR .; fi
